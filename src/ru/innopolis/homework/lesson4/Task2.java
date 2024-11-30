@@ -5,7 +5,7 @@
 Выбор каждого участника формируется случайным образом.
  */
 
-package ru.innopolis.homework.four;
+package ru.innopolis.homework.lesson4;
 
 import java.util.Random;
 

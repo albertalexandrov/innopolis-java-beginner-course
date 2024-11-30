@@ -3,7 +3,7 @@
 Составить программу вывода на экран в одну строку четырех любых чисел с тремя пробелами между ними
  */
 
-package ru.innopolis.homework.four;
+package ru.innopolis.homework.lesson4;
 
 import java.util.Random;
 
