@@ -3,7 +3,7 @@
 Напишите Java-программу для преобразования температуры изФаренгейта в градусы Цельсия.
 */
 
-package ru.innopolis.homework.lesson6;
+package ru.innopolis.homework.homework02;
 
 import java.util.Scanner;
 

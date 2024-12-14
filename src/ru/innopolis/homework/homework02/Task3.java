@@ -3,7 +3,7 @@
 Напишите Java-программу для объединения данной строки ссамим собой заданное количество раз.
  */
 
-package ru.innopolis.homework.lesson6;
+package ru.innopolis.homework.homework02;
 
 import java.util.Scanner;
 

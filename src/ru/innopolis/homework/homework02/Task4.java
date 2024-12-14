@@ -3,7 +3,7 @@
 Напишите программу на Java для печати сетки из заданныхэлементов.
 */
 
-package ru.innopolis.homework.lesson6;
+package ru.innopolis.homework.homework02;
 
 import java.util.Scanner;
 

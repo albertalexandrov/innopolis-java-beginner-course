@@ -5,7 +5,7 @@
 минимум (меньшее из двух целых чисел).
 */
 
-package ru.innopolis.homework.lesson6;
+package ru.innopolis.homework.homework02;
 
 import java.util.Scanner;
 
