@@ -9,10 +9,8 @@ public class App {
     public static void main(String[] args) {
         System.out.print("Введите информацию о покупателях: ");
         HashMap<String, Person> persons = getPersons();
-        System.out.println(persons);
         System.out.print("Введите информацию о продуктах: ");
         HashMap<String, Product> products = getProducts();
-        System.out.println(products);
         System.out.println("Введите покупки в формате <имя покупателя>:<название продукта> (введите END, чтобы прекратить ввод):");
         Scanner scanner = new Scanner(System.in);
         while (true) {
