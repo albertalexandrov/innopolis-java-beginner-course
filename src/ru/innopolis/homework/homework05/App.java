@@ -7,18 +7,20 @@ import java.util.Scanner;
 public class App {
     public static void main(String[] args) {
         // вопрос: как было правильно сделать чтение из консольного ввода-вывода при чтении в разных методах?
-        Tv[] tvs = getTvs();
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("Введите количество телевизоров: ");
+        int count = scanner.nextInt();
+        Tv[] tvs = getTvs(count);
         int maxVolume = getMaxVolume();
         displayOnAndUnderMaxVolume(tvs, maxVolume);
         sortByChannel(tvs);
     }
 
-    private static Tv[] getTvs() {
+    private static Tv[] getTvs(int count) {
         // Scanner scanner = getScanner(); если так, то работает некорректно на второй итерации - выдает на одной строке "Укажите тип экрана (LED, QLED, OLED и тд): Укажите диагональ экрана, дюймы: "
-        final int COUNT = 10;
-        Tv[] tvs = new Tv[COUNT];
-        System.out.printf("Создайте %d телевизора(ов)\n\n", COUNT);
-        for (int i = 0; i < COUNT; i++) {
+        Tv[] tvs = new Tv[count];
+        System.out.printf("Создайте %d телевизора(ов)\n\n", count);
+        for (int i = 0; i < count; i++) {
             Scanner scanner = new Scanner(System.in);
             System.out.printf("Телевизор %d\n", (i + 1));
             System.out.print("Укажите тип экрана (LED, QLED, OLED и тд): ");
@@ -27,15 +29,19 @@ public class App {
             int screenSize = scanner.nextInt();
             System.out.print("Укажите частоту обновления экрана, Гц: ");
             int refreshRate = scanner.nextInt();
-            System.out.print("Укажите номер канала: ");
-            int channel = scanner.nextInt();
             System.out.print("Укажите громкость: ");
             int volume = scanner.nextInt();
-            System.out.print("Включен ли телевизор (true/false): ");
-            boolean isOn = scanner.nextBoolean();
-            Tv tv = new Tv(displayType, screenSize, refreshRate, channel, volume, isOn);
+            Tv tv = new Tv(displayType, screenSize, refreshRate, volume);
             System.out.printf("По Вашим параметрам был создан телевизор: %s\n\n", tv);
             tvs[i] = tv;
+            System.out.printf("Телевизор %s. Включаем\n",  tv.isOn() ? "включен" : "выключен");
+            tv.switchOn();
+            System.out.println("Каналы телевизора: " + tv.getChannels());
+            System.out.printf("Текущий канал: %s. Переключаем.\n", tv.getChannel());
+            tv.switchChannel();
+            System.out.println("Новый текущий канал: " + tv.getChannel());
+            System.out.println("Выключаем телевизор.");
+            tv.switchOff();
         }
         return tvs;
     }
@@ -60,7 +66,7 @@ public class App {
         Arrays.sort(tvs, new Comparator<Tv>() {
             @Override
             public int compare(Tv o1, Tv o2) {
-                return Integer.compare(o1.getChannel(), o2.getChannel());
+                return Integer.compare(o1.getChannel().getNo(), o2.getChannel().getNo());
             }
         });
         System.out.println("Отсорированные по channel:");

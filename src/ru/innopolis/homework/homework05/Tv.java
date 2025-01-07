@@ -1,27 +1,30 @@
 package ru.innopolis.homework.homework05;
 
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class Tv {
     private String displayType;
     private int screenSize;
     private int refreshRate;
-    private int channel;
     private int volume;
     private boolean isOn;
+    private ArrayList<Channel> channels;
+    private int channelIndex;
+    private Channel channel;
 
-    public Tv(String displayType, int screenSize, int refreshRate, int channel, int volume, boolean isOn) {
+    public Tv(String displayType, int screenSize, int refreshRate, int volume) {
         this.displayType = displayType;
         this.screenSize = screenSize;
         this.refreshRate = refreshRate;
-        this.channel = channel;
         this.volume = volume;
-        this.isOn = isOn;
+        this.isOn = false;
+        this.channels = new ArrayList<>();
     }
 
     public Tv() {
-        this("LED", 50, 120, 1, 20, true);
+        this("LED", 50, 120, 20);
     }
 
     public String getDisplayType() {
@@ -48,12 +51,8 @@ public class Tv {
         this.refreshRate = refreshRate;
     }
 
-    public int getChannel() {
+    public Channel getChannel() {
         return channel;
-    }
-
-    public void setChannel(int channel) {
-        this.channel = channel;
     }
 
     public int getVolume() {
@@ -68,8 +67,36 @@ public class Tv {
         return isOn;
     }
 
-    public void setIsOn(boolean on) {
-        isOn = on;
+    public void switchOn() {
+        isOn = true;
+        addChannels(Utils.getRandomInt(3, 100));
+        channelIndex = 0;
+        setChannel(channelIndex);
+        System.out.printf("Телевизор включен. Каналы настроены (%s).\n", getChannels().size());
+    }
+
+    public void switchOff() {
+        isOn = false;
+        System.out.println("Телевизор выключен");
+    }
+
+    public void switchChannel() {
+        channelIndex = (channelIndex + 1) % channels.size();
+        setChannel(channelIndex);
+    }
+
+    private void setChannel(int channelIndex) {
+        channel = channels.get(channelIndex);
+    }
+
+    private void addChannels(int count) {
+        for (int i = 0; i < count; i++) {
+            channels.add(new Channel());
+        }
+    }
+
+    public ArrayList<Channel> getChannels() {
+        return channels;
     }
 
     @Override
@@ -78,20 +105,20 @@ public class Tv {
                 "displayType='" + displayType + '\'' +
                 ", screenSize=" + screenSize +
                 ", refreshRate=" + refreshRate +
-                ", channel=" + channel +
                 ", volume=" + volume +
                 ", isOn=" + isOn +
+                ", channels=" + channels +
                 '}';
     }
 
     @Override
     public boolean equals(Object o) {
         if (!(o instanceof Tv tv)) return false;
-        return getScreenSize() == tv.getScreenSize() && getRefreshRate() == tv.getRefreshRate() && getChannel() == tv.getChannel() && getVolume() == tv.getVolume() && isOn() == tv.isOn() && Objects.equals(getDisplayType(), tv.getDisplayType());
+        return getScreenSize() == tv.getScreenSize() && getRefreshRate() == tv.getRefreshRate() && getVolume() == tv.getVolume() && isOn() == tv.isOn() && Objects.equals(getDisplayType(), tv.getDisplayType());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getDisplayType(), getScreenSize(), getRefreshRate(), getChannel(), getVolume(), isOn());
+        return Objects.hash(getDisplayType(), getScreenSize(), getRefreshRate(), getVolume(), isOn());
     }
 }
