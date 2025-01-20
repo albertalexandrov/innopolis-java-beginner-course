@@ -1,4 +1,4 @@
-package ru.innopolis.homework.homework05;
+package ru.innopolis.homework.homework06Additional;
 
 import java.util.Arrays;
 import java.util.Comparator;
