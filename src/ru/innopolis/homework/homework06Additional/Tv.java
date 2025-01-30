@@ -1,5 +1,8 @@
-package ru.innopolis.homework.homework05;
+package ru.innopolis.homework.homework06Additional;
 
+
+import ru.innopolis.homework.homework05.Channel;
+import ru.innopolis.homework.homework05.Utils;
 
 import java.util.ArrayList;
 import java.util.Objects;
