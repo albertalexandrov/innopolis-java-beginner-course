@@ -1,4 +1,4 @@
-package ru.innopolis.homework.homework07;
+package ru.innopolis.homework.homework07.product;
 
 import java.util.Objects;
 import java.util.Random;

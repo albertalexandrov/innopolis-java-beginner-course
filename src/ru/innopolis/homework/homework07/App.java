@@ -1,5 +1,7 @@
 package ru.innopolis.homework.homework07;
 
+import ru.innopolis.homework.homework07.product.Product;
+
 import java.util.HashMap;
 import java.util.Scanner;
 
