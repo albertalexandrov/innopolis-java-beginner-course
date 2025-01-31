@@ -13,28 +13,13 @@ public class Product {
         setPrice(price);
     }
 
-    public Product() {
-        this(generateRandomName(), generateRandomPrice());
-    }
-
-    private static String generateRandomName() {
-        Random rdm = new Random();
-        int randomInt = rdm.nextInt(1000);
-        return "Продукт " + randomInt;
-    }
-
-    private static int generateRandomPrice() {
-        Random rdm = new Random();
-        return rdm.nextInt(1000);
-    }
-
     public String getName() {
         return this.name;
     }
 
     public void setName(String name) {
-        if (name.isEmpty()) {
-            throw new IllegalArgumentException("Название продукта не может быть пустой строкой");
+        if (name.length() < 3 || name.matches("\\d+")) {
+            throw new IllegalArgumentException("Недопустимое имя продукта!");
         }
         this.name = name;
     }
@@ -44,8 +29,8 @@ public class Product {
     }
 
     public void setPrice(double price) {
-        if (price < 0) {
-            throw new IllegalArgumentException("Стоимость продукта не может быть отрицательной");
+        if (price <= 0) {
+            throw new IllegalArgumentException("Недопустимая стоимость продукта!");
         }
         this.price = price;
     }

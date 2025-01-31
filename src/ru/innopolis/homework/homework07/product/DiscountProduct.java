@@ -4,12 +4,12 @@ import java.time.LocalDate;
 
 public class DiscountProduct extends Product {
     private double discount;
-    private LocalDate discountValidTill;
+    private boolean applyDiscount;
 
-    public DiscountProduct(String name, double price, double discount, LocalDate discountValidTill) {
+    public DiscountProduct(String name, double price, double discount, boolean applyDiscount) {
         super(name, price);
         this.discount = discount;
-        this.discountValidTill = discountValidTill;
+        this.applyDiscount = applyDiscount;
     }
 
     public double getDiscount() {
@@ -20,17 +20,17 @@ public class DiscountProduct extends Product {
         this.discount = discount;
     }
 
-    public LocalDate getDiscountValidTill() {
-        return discountValidTill;
+    public boolean getApplyDiscount() {
+        return applyDiscount;
     }
 
-    public void setDiscountValidTill(LocalDate discountValidTill) {
-        this.discountValidTill = discountValidTill;
+    public void setApplyDiscount(boolean applyDiscount) {
+        this.applyDiscount = applyDiscount;
     }
 
     @Override
     public double getPrice() {
-        if (LocalDate.now().isBefore(discountValidTill)) {
+        if (applyDiscount) {
             return super.getPrice() * (1 - discount / 100);
         } else {
             return super.getPrice();
@@ -43,7 +43,7 @@ public class DiscountProduct extends Product {
                 "name='" + super.getName() + '\'' +
                 ", price=" + super.getPrice() +
                 ", discount=" + discount +
-                ", discountValidTill=" + discountValidTill +
+                ", applyDiscount=" + applyDiscount +
                 "} ";
     }
 }
