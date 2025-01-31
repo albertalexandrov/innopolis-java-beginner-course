@@ -5,9 +5,9 @@ import java.util.Random;
 
 public class Product {
     private String name;
-    private int price;
+    private double price;
 
-    public Product(String name, int price) {
+    public Product(String name, double price) {
         // инициализация через геттеры, чтобы выполнять валидацию
         setName(name);
         setPrice(price);
@@ -39,11 +39,11 @@ public class Product {
         this.name = name;
     }
 
-    public int getPrice() {
+    public double getPrice() {
         return this.price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(double price) {
         if (price < 0) {
             throw new IllegalArgumentException("Стоимость продукта не может быть отрицательной");
         }
