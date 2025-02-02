@@ -62,7 +62,6 @@ public class App {
         //  к тому же исключение перехватывается в вызывающем методе main
         String line;
         while (!(line = reader.readLine()).equals("END")) {
-            System.out.println(line);
             String[] tokens = line.split("=");
             Person person = persons.get(tokens[0].strip().toLowerCase());
             Product product = products.get(tokens[1].strip().toLowerCase());
