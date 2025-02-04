@@ -1,5 +1,7 @@
 package ru.innopolis.homework.homework09.cars;
 
+import java.util.Objects;
+
 public class Car {
     private String brand;  // марка
     private String model;  // модель
@@ -78,5 +80,27 @@ public class Car {
         this.durability = durability;
     }
 
+    @Override
+    public String toString() {
+        return "Car{" +
+                "brand='" + brand + '\'' +
+                ", model='" + model + '\'' +
+                ", year=" + year +
+                ", power=" + power +
+                ", acceleration=" + acceleration +
+                ", pendant=" + pendant +
+                ", durability=" + durability +
+                '}';
+    }
 
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Car car)) return false;
+        return getYear() == car.getYear() && getPower() == car.getPower() && getAcceleration() == car.getAcceleration() && getPendant() == car.getPendant() && getDurability() == car.getDurability() && Objects.equals(getBrand(), car.getBrand()) && Objects.equals(getModel(), car.getModel());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getBrand(), getModel(), getYear(), getPower(), getAcceleration(), getPendant(), getDurability());
+    }
 }

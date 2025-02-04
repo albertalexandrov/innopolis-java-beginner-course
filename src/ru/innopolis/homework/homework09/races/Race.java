@@ -5,6 +5,7 @@ import ru.innopolis.homework.homework09.cars.Car;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
 
 public class Race {
     private int distance;
@@ -56,5 +57,26 @@ public class Race {
 
     public void setCar(Car car) {
         this.cars.add(car);
+    }
+
+    @Override
+    public String toString() {
+        return "Race{" +
+                "distance=" + distance +
+                ", route='" + route + '\'' +
+                ", prizeFund=" + prizeFund +
+                ", cars=" + cars +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Race race)) return false;
+        return getDistance() == race.getDistance() && getPrizeFund() == race.getPrizeFund() && Objects.equals(getRoute(), race.getRoute()) && Objects.equals(getCars(), race.getCars());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getDistance(), getRoute(), getPrizeFund(), getCars());
     }
 }
