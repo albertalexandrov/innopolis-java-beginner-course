@@ -1,20 +1,18 @@
 package ru.innopolis.homework.homework11;
 
-import java.util.Objects;
-
 public class Car {
     private String number;
     private String model;
     private String color;
-    private int mileage;
-    private int price;
+    private Integer mileage;
+    private Integer cost;
 
-    public Car(String number, String model, String color, int mileage, int price) {
+    public Car(String number, String model, String color, Integer mileage, int cost) {
         this.number = number;
         this.model = model;
         this.color = color;
         this.mileage = mileage;
-        this.price = price;
+        this.cost = cost;
     }
 
     public Car() {
@@ -44,20 +42,20 @@ public class Car {
         this.color = color;
     }
 
-    public int getMileage() {
+    public Integer getMileage() {
         return mileage;
     }
 
-    public void setMileage(int mileage) {
+    public void setMileage(Integer mileage) {
         this.mileage = mileage;
     }
 
-    public int getPrice() {
-        return price;
+    public Integer getCost() {
+        return cost;
     }
 
-    public void setPrice(int price) {
-        this.price = price;
+    public void setCost(Integer cost) {
+        this.cost = cost;
     }
 
     @Override
@@ -67,18 +65,7 @@ public class Car {
                 ", model='" + model + '\'' +
                 ", color='" + color + '\'' +
                 ", mileage=" + mileage +
-                ", price=" + price +
+                ", cost=" + cost +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Car car)) return false;
-        return mileage == car.getMileage() && price == car.getPrice() && Objects.equals(number, car.getNumber()) && Objects.equals(model, car.getModel()) && Objects.equals(color, car.getColor());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(number, model, color, price, mileage);
     }
 }
