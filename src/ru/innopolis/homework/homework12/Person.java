@@ -17,7 +17,7 @@ public class Person {
         setAge(age);
     }
 
-    private Person() {}
+    Person() {}
 
     public String getFullName() {
         return fullName;
@@ -36,7 +36,7 @@ public class Person {
     }
 
     public void setBirthday(String birthday) {
-        if (!birthday.matches("^\\d{2}-\\d{2}-\\d{4}$")) {
+        if (!birthday.matches("^\\d{2}.\\d{2}.\\d{4}$")) {
             throw new InvalidBirthdayException("Передано некорректное значение дня рождения: " + birthday);
         }
         this.birthday = birthday;
@@ -47,8 +47,9 @@ public class Person {
     }
 
     public void setPhoneNumber(long phoneNumber) {
-        if (!String.valueOf(phoneNumber).matches("^\\d{7}$")) {
-            throw new InvalidPhoneNumber("Передано некорректное значение номера телефона: " + phoneNumber);
+        if (!String.valueOf(phoneNumber).matches("^\\d{11}$")) {
+            var message = String.format("Номер телефона (%s) передан в некорректном формате", phoneNumber);
+            throw new InvalidPhoneNumber(message);
         }
         this.phoneNumber = phoneNumber;
     }
@@ -58,7 +59,7 @@ public class Person {
     }
 
     public void setGender(char gender) {
-        if (gender != 'm' || gender != 'f') {
+        if (gender != 'm' && gender != 'f') {
             throw new InvalidGenderException("Передано некорректное значение пола: " + gender);
         }
         this.gender = gender;
@@ -73,5 +74,16 @@ public class Person {
             throw new InvalidAgeException("Передано некорректное значение возраста: " + age);
         }
         this.age = age;
+    }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "fullName='" + fullName + '\'' +
+                ", birthday='" + birthday + '\'' +
+                ", phoneNumber=" + phoneNumber +
+                ", gender=" + gender +
+                ", age=" + age +
+                '}';
     }
 }
