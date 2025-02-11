@@ -9,6 +9,8 @@ import java.util.Scanner;
 
 public class App {
     public static void main(String[] args) throws IOException {
+        // ДЛЯ ДЕМОНСТРАЦИИ РАБОТЫ С ИСКЛЮЧЕНИЯМИ ЧАСТЬ ВАЛИДАЦИЙ ПРОХОДИТ ЗДЕСЬ,
+        // НЕКОТОРЫЕ ИЗ КОТОРЫХ МОГУТ ПОКАЗАТЬ СТРАННЫМИ, А ЧАСТЬ - В КЛАССЕ PERSON
         var person = new Person();
         var scanner = new Scanner(System.in);
         setFullName(person, scanner);
