@@ -42,7 +42,7 @@ public class Person {
         this.name = name;
     }
 
-    public double getMoney() {
+    public int getMoney() {
         return this.money;
     }
 
