@@ -16,7 +16,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public void create(User user) {
-        // проверим, что пользователь не существует
+        // убедимся, что пользователя не существует
         if (findById(user.getId()).isPresent()) {
             throw new RuntimeException("Пользователь ID=" + user.getId() + " уже существует");
         }
@@ -40,15 +40,13 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public List<User> findAll() {
-        if (USERS.isEmpty()) {
-            try (var reader = Files.newBufferedReader(Paths.get(FILE_PATH))) {
-                List<User> users = reader.lines().map(User::new).toList();
-                USERS.addAll(users);
-            } catch (NoSuchFileException e) {
-                System.out.println("Отсутствует файл по адресу " + FILE_PATH);
-            } catch (IOException e) {
-                System.out.println("Ошибка чтения файла: " + e.getMessage());
-            };
+        try (var reader = Files.newBufferedReader(Paths.get(FILE_PATH))) {
+            List<User> users = reader.lines().map(User::new).toList();
+            USERS.addAll(users);
+        } catch (NoSuchFileException e) {
+            System.out.println("Отсутствует файл по адресу " + FILE_PATH);
+        } catch (IOException e) {
+            System.out.println("Ошибка чтения файла: " + e.getMessage());
         }
         return Collections.unmodifiableList(USERS);
     }
