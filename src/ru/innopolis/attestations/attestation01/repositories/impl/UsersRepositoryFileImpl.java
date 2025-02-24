@@ -11,6 +11,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 public class UsersRepositoryFileImpl implements UsersRepository {
 
@@ -24,7 +25,13 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public User findById(String id) {
-        return null;
+        if (USERS.isEmpty()) {
+            findAll();
+        }
+        return USERS.stream()
+                .filter(u -> u.getId().equals(id))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("Пользователь id=" + id + " не найден"));
     }
 
     @Override
