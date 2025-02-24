@@ -1,5 +1,6 @@
 package ru.innopolis.attestations.attestation01.repositories.impl;
 
+import ru.innopolis.attestations.attestation01.exceptions.UserDoesNotExistException;
 import ru.innopolis.attestations.attestation01.models.User;
 import ru.innopolis.attestations.attestation01.repositories.UsersRepository;
 
@@ -17,9 +18,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     @Override
     public void create(User user) {
         // убедимся, что пользователя не существует
-        if (findById(user.getId()).isPresent()) {
-            throw new RuntimeException("Пользователь ID=" + user.getId() + " уже существует");
-        }
+        findById(user.getId());
         // добавим в конец файла нового пользователя
         try (
             var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.APPEND)
@@ -33,9 +32,12 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     @Override
-    public Optional<User> findById(String id) {
+    public User findById(String id) {
         if (USERS.isEmpty()) findAll();
-        return USERS.stream().filter(user -> user.getId().equals(id)).findFirst();
+        return USERS.stream()
+                .filter(user -> user.getId().equals(id))
+                .findFirst()
+                .orElseThrow(UserDoesNotExistException::new);
     }
 
     @Override

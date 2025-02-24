@@ -9,7 +9,7 @@ public interface UsersRepository {
 
     void create(User user);
 
-    Optional<User> findById(String id);
+    User findById(String id);
 
     List<User> findAll();
 
