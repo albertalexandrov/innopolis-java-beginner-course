@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -61,6 +62,12 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public void deleteAll() {
-
+        USERS.clear();
+        try (var writer = Files.newBufferedWriter(Paths.get(FILE_PATH))) {
+            writer.write("");
+            writer.flush();
+        } catch (IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
