@@ -1,6 +1,7 @@
 package ru.innopolis.attestations.attestation01.models;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class User {
     private String id;
@@ -19,6 +20,15 @@ public class User {
     public User(String line) {
         String[] tokens = line.split("\\|");
         this.id = tokens[0];
+        setCreatedAt(LocalDateTime.parse(tokens[1]));
+        this.login = tokens[2];
+        this.password = tokens[3];
+        this.confirmPassword = tokens[4];
+        this.lastName = tokens[5];
+        this.firstName = tokens[6];
+        this.middleName = tokens[7];
+        this.age = Integer.parseInt(tokens[8]);
+        this.isWorker = Boolean.parseBoolean(tokens[9]);
     }
 
     public LocalDateTime getCreatedAt() {
@@ -26,11 +36,15 @@ public class User {
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
+        if (createdAt == null) {
+            setCreatedAt();
+        } else {
+            this.createdAt = createdAt;
+        }
     }
 
     public void setCreatedAt() {
-        this.createdAt = LocalDateTime.now();
+        createdAt = LocalDateTime.now();
     }
 
     public String getLogin() {
@@ -105,6 +119,9 @@ public class User {
         this.id = id;
     }
 
-
-
+    @Override
+    public String toString() {
+        String[] values = {id, createdAt.toString(), login, password, confirmPassword, lastName, firstName, middleName, Integer.toString(age), Boolean.toString(isWorker)};
+        return String.join("|", values);
+    }
 }
