@@ -12,13 +12,13 @@ import java.util.*;
 
 public class UsersRepositoryFileImpl implements UsersRepository {
 
-    private static final List<User> USERS = new ArrayList<>();
+    private static final Map<String, User> USERS = new LinkedHashMap<>();
     private static final String FILE_PATH = "src/ru/innopolis/attestations/attestation01/resources/users.txt";
 
     public UsersRepositoryFileImpl() {
         var file = new File(FILE_PATH);
         try {
-            if (file.createNewFile()) {
+            if (!file.createNewFile()) {
                 loadUsers(file);
             }
         } catch (IOException e) {
@@ -28,8 +28,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     private void loadUsers(File file) throws IOException {
         try (var reader = new BufferedReader(new FileReader(file))) {
-            List<User> users = reader.lines().map(User::new).toList();
-            USERS.addAll(users);
+            reader.lines().map(User::new).forEach(user -> USERS.put(user.getId(), user));
         }
     }
 
@@ -52,30 +51,34 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     @Override
     public void create(User user) {
         // убедимся, что пользователя не существует
-        try {
-            findById(user.getId());
+        if (USERS.containsKey(user.getId())) {
             throw new UserAlreadyExistsException("sdvsdv");
-        } catch (UserDoesNotExistException ignored) {}
-
+        }
         // добавим в конец файла нового пользователя
+        USERS.put(user.getId(), user);
+        saveUsers();
+    }
+
+    private void saveUsers() {
         try (
-            var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.APPEND)
+                var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.WRITE)
         ) {
-            var line = mapUserToString(user);
-            writer.write("\n" + line);
+            for (var user: USERS.values()) {
+                var line = mapUserToString(user);
+                writer.write(line + "\n");
+            }
         } catch (IOException e) {
-            var message = String.format("Не удалось сохранить пользователя ID=%s в файл: %s", user.getId(), e.getMessage());
-            throw new RuntimeException(message);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public User findById(String id) {
         if (USERS.isEmpty()) findAll();
-        return USERS.stream()
-                .filter(user -> user.getId().equals(id))
-                .findFirst()
-                .orElseThrow(UserDoesNotExistException::new);
+        return USERS.entrySet().stream().filter(e -> e.getValue().getId().equals(id)).findFirst().get().getValue();
+//                .filter(user -> user.getId().equals(id))
+//                .findFirst()
+//                .orElseThrow(UserDoesNotExistException::new);
     }
 
     @Override
@@ -90,7 +93,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 //        } catch (IOException e) {
 //            System.out.println("Ошибка чтения файла: " + e.getMessage());
 //        }
-        return Collections.unmodifiableList(USERS);
+        return Collections.unmodifiableList(USERS.values().stream().toList());
     }
 
     @Override
