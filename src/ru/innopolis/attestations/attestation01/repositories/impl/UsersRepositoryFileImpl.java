@@ -1,5 +1,6 @@
 package ru.innopolis.attestations.attestation01.repositories.impl;
 
+import ru.innopolis.attestations.attestation01.exceptions.UserAlreadyExistsException;
 import ru.innopolis.attestations.attestation01.exceptions.UserDoesNotExistException;
 import ru.innopolis.attestations.attestation01.models.User;
 import ru.innopolis.attestations.attestation01.repositories.UsersRepository;
@@ -15,16 +16,36 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     private static final List<User> USERS = new ArrayList<>();
     private static final String FILE_PATH = "src/ru/innopolis/attestations/attestation01/resources/users.txt";
 
+    private String mapUserToString(User user) {
+        String[] values = {
+                user.getId(),
+                user.getCreatedAt().toString(),
+                user.getLogin(),
+                user.getPassword(),
+                user.getConfirmPassword(),
+                user.getLastName(),
+                user.getFirstName(),
+                user.getMiddleName(),
+                Integer.toString(user.getAge()),
+                Boolean.toString(user.isWorker())
+        };
+        return String.join("|", values);
+    }
+
     @Override
     public void create(User user) {
         // убедимся, что пользователя не существует
-        findById(user.getId());
+        try {
+            findById(user.getId());
+            throw new UserAlreadyExistsException("sdvsdv");
+        } catch (UserDoesNotExistException ignored) {}
+
         // добавим в конец файла нового пользователя
         try (
             var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.APPEND)
         ) {
-            writer.write("\n");
-            writer.write(user.toString());
+            var line = mapUserToString(user);
+            writer.write("\n" + line);
         } catch (IOException e) {
             var message = String.format("Не удалось сохранить пользователя ID=%s в файл: %s", user.getId(), e.getMessage());
             throw new RuntimeException(message);
@@ -42,6 +63,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public List<User> findAll() {
+        // каждый раз читаем файл
         try (var reader = Files.newBufferedReader(Paths.get(FILE_PATH))) {
             List<User> users = reader.lines().map(User::new).toList();
             USERS.addAll(users);

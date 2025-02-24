@@ -121,7 +121,17 @@ public class User {
 
     @Override
     public String toString() {
-        String[] values = {id, createdAt.toString(), login, password, confirmPassword, lastName, firstName, middleName, Integer.toString(age), Boolean.toString(isWorker)};
-        return String.join("|", values);
+        return "User{" +
+                "id='" + id + '\'' +
+                ", createdAt=" + createdAt +
+                ", login='" + login + '\'' +
+                ", password='" + password + '\'' +
+                ", confirmPassword='" + confirmPassword + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", middleName='" + middleName + '\'' +
+                ", age=" + age +
+                ", isWorker=" + isWorker +
+                '}';
     }
 }
