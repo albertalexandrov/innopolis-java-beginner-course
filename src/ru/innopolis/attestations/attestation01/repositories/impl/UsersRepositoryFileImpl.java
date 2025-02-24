@@ -74,26 +74,15 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public User findById(String id) {
-        if (USERS.isEmpty()) findAll();
-        return USERS.entrySet().stream().filter(e -> e.getValue().getId().equals(id)).findFirst().get().getValue();
-//                .filter(user -> user.getId().equals(id))
-//                .findFirst()
-//                .orElseThrow(UserDoesNotExistException::new);
+        if (!USERS.containsKey(id)) {
+            throw new UserDoesNotExistException();
+        }
+        return USERS.get(id);
     }
 
     @Override
     public List<User> findAll() {
-//        if (USERS.isEmpty()) findAll();
-//        // каждый раз читаем файл
-//        try (var reader = Files.newBufferedReader(Paths.get(FILE_PATH))) {
-//            List<User> users = reader.lines().map(User::new).toList();
-//            USERS.addAll(users);
-//        } catch (NoSuchFileException e) {
-//            System.out.println("Отсутствует файл по адресу " + FILE_PATH);
-//        } catch (IOException e) {
-//            System.out.println("Ошибка чтения файла: " + e.getMessage());
-//        }
-        return Collections.unmodifiableList(USERS.values().stream().toList());
+        return USERS.values().stream().toList();
     }
 
     @Override
