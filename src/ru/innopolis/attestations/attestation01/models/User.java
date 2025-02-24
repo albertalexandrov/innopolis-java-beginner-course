@@ -14,6 +14,8 @@ public class User {
     private int age;
     private boolean isWorker;
 
+    public User() {}
+
     public User(String line) {
         String[] tokens = line.split("\\|");
         this.id = tokens[0];
@@ -25,6 +27,10 @@ public class User {
 
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
+    }
+
+    public void setCreatedAt() {
+        this.createdAt = LocalDateTime.now();
     }
 
     public String getLogin() {
