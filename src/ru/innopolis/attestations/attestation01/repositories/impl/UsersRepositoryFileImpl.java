@@ -92,7 +92,11 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public void deleteById(String id) {
-
+        if (!USERS.containsKey(id)) {
+            throw new UserDoesNotExistException();
+        }
+        USERS.remove(id);
+        saveUsers();
     }
 
     @Override
