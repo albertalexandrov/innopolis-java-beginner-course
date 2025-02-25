@@ -87,7 +87,8 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     @Override
     public void update(User user) {
-
+        USERS.put(user.getId(), user);
+        saveUsers();
     }
 
     @Override
