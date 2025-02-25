@@ -61,7 +61,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     private void saveUsers() {
         try (
-                var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.WRITE)
+                var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
         ) {
             for (var user: USERS.values()) {
                 var line = mapUserToString(user);
@@ -98,11 +98,6 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     @Override
     public void deleteAll() {
         USERS.clear();
-        try (var writer = Files.newBufferedWriter(Paths.get(FILE_PATH))) {
-            writer.write("");
-            writer.flush();
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        saveUsers();
     }
 }
