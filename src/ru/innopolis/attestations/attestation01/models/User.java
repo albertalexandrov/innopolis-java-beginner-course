@@ -1,17 +1,10 @@
 package ru.innopolis.attestations.attestation01.models;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 public class User {
-    private String id;
+    private String id, login, password, confirmPassword, lastName, firstName, middleName;
     private LocalDateTime createdAt;
-    private String login;
-    private String password;
-    private String confirmPassword;
-    private String lastName;
-    private String firstName;
-    private String middleName;
     private int age;
     private boolean isWorker;
 
