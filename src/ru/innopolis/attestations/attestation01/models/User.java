@@ -11,6 +11,9 @@ public class User {
     private int age;
     private boolean isWorker;
 
+    private static final int MAX_LOGIN_LENGTH = 20;
+    private static final int MAX_PASSWORD_LENGTH = 20;
+
     public User() {
     }
 
@@ -100,7 +103,7 @@ public class User {
     }
 
     public void setLastName(String lastName) {
-        if (lastName == null || !Utils.containsLetters(lastName)) {
+        if (lastName == null || !Utils.containsLettersOnly(lastName)) {
             throw new ValidationException("Фамилия должна состоять только из букв. Передано значение: " + lastName);
         }
         this.lastName = lastName;
@@ -111,7 +114,7 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
-        if (firstName == null || !Utils.containsLetters(firstName)) {
+        if (firstName == null || !Utils.containsLettersOnly(firstName)) {
             throw new ValidationException("Имя должно состоять только из букв. Передано значение: " + firstName);
         }
         this.firstName = firstName;
@@ -122,7 +125,7 @@ public class User {
     }
 
     public void setMiddleName(String middleName) {
-        if (middleName != null && !Utils.containsLetters(middleName)) {
+        if (middleName != null && !Utils.containsLettersOnly(middleName)) {
             throw new ValidationException("Отчество должно состоять только из букв. Передано значение: " + middleName);
         }
         this.middleName = middleName;
@@ -154,6 +157,14 @@ public class User {
             throw new ValidationException("id должен содержать цифры и буквы. Передано значение: " + id);
         }
         this.id = id;
+    }
+
+    public static int getMaxLoginLength() {
+        return MAX_LOGIN_LENGTH;
+    }
+
+    public static int getMaxPasswordLength() {
+        return MAX_PASSWORD_LENGTH;
     }
 
     @Override

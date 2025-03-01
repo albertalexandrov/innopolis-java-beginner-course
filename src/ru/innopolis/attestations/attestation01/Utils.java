@@ -1,5 +1,7 @@
 package ru.innopolis.attestations.attestation01;
 
+import java.util.Random;
+
 public final class Utils {
 
     private Utils() {}
@@ -38,6 +40,17 @@ public final class Utils {
             }
         }
         return true;
+    }
+
+    public static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        var random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(characters.length());
+            sb.append(characters.charAt(index));
+        }
+        return sb.toString();
     }
 
 }
