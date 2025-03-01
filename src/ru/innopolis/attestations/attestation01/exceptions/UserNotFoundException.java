@@ -1,12 +1,12 @@
 package ru.innopolis.attestations.attestation01.exceptions;
 
-public class UserDoesNotExistException extends RuntimeException {
+public class UserNotFoundException extends RuntimeException {
 
-    public UserDoesNotExistException(String message) {
+    public UserNotFoundException(String message) {
         super(message);
     }
 
-    public UserDoesNotExistException() {
+    public UserNotFoundException() {
         super("Пользователя с заданным идентификатором не существует");
     }
 

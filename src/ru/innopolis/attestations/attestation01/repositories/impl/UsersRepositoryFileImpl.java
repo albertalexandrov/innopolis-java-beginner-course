@@ -1,12 +1,12 @@
 package ru.innopolis.attestations.attestation01.repositories.impl;
 
 import ru.innopolis.attestations.attestation01.exceptions.UserAlreadyExistsException;
-import ru.innopolis.attestations.attestation01.exceptions.UserDoesNotExistException;
+import ru.innopolis.attestations.attestation01.exceptions.UserNotFoundException;
 import ru.innopolis.attestations.attestation01.exceptions.ValidationException;
 import ru.innopolis.attestations.attestation01.models.User;
 import ru.innopolis.attestations.attestation01.repositories.UsersRepository;
+import ru.innopolis.attestations.attestation01.UserFieldsLinePositionsEnum;
 
-import javax.swing.text.html.Option;
 import java.io.*;
 import java.nio.file.*;
 import java.time.LocalDateTime;
@@ -16,7 +16,7 @@ import java.util.*;
 public class UsersRepositoryFileImpl implements UsersRepository {
 
     private static final Map<String, User> USERS = new LinkedHashMap<>();
-    private static final String FILE_PATH = "src/ru/innopolis/attestations/attestation01/resources/users.txt";
+    public static final String FILE_PATH = "src/ru/innopolis/attestations/attestation01/resources/users.txt";
 
     public UsersRepositoryFileImpl() {
         var file = new File(FILE_PATH);
@@ -38,15 +38,18 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     private User mapLineToUser(String line) {
         String[] tokens = line.split("\\|");
         var user = new User();
-        user.setId(tokens[0]);
-        setCreatedAt(user, tokens[1]);
-        user.setLogin(tokens[2]);
-        user.setPasswords(tokens[3], tokens[4]);
-        user.setLastName(tokens[5]);
-        user.setFirstName(tokens[6]);
-        user.setMiddleName(tokens[7]);
-        setAge(user, tokens[8]);
-        setWorker(user, tokens[9]);
+        user.setId(tokens[UserFieldsLinePositionsEnum.ID.getIndex()]);
+        setCreatedAt(user, tokens[UserFieldsLinePositionsEnum.CREATED_AT.getIndex()]);
+        user.setLogin(tokens[UserFieldsLinePositionsEnum.LOGIN.getIndex()]);
+        user.setPasswords(
+                tokens[UserFieldsLinePositionsEnum.PASSWORD.getIndex()],
+                tokens[UserFieldsLinePositionsEnum.CONFIRM_PASSWORD.getIndex()]
+        );
+        user.setLastName(tokens[UserFieldsLinePositionsEnum.LAST_NAME.getIndex()]);
+        user.setFirstName(tokens[UserFieldsLinePositionsEnum.FIRST_NAME.getIndex()]);
+        user.setMiddleName(tokens[UserFieldsLinePositionsEnum.MIDDLE_NAME.getIndex()]);
+        setAge(user, tokens[UserFieldsLinePositionsEnum.AGE.getIndex()]);
+        setWorker(user, tokens[UserFieldsLinePositionsEnum.IS_WORKER.getIndex()]);
         return user;
     }
 
@@ -122,7 +125,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     @Override
     public User findById(String id) {
         if (!USERS.containsKey(id)) {
-            throw new UserDoesNotExistException();
+            throw new UserNotFoundException("Пользователь ID=" + id + " не найден");
         }
         return USERS.get(id);
     }
@@ -141,7 +144,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     @Override
     public void deleteById(String id) {
         if (!USERS.containsKey(id)) {
-            throw new UserDoesNotExistException();
+            throw new UserNotFoundException("Пользователь ID=" + id + " не найден");
         }
         USERS.remove(id);
         saveUsers();

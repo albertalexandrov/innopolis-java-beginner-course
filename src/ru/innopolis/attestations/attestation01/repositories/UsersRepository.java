@@ -3,7 +3,6 @@ package ru.innopolis.attestations.attestation01.repositories;
 import ru.innopolis.attestations.attestation01.models.User;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface UsersRepository {
 
