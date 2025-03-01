@@ -11,9 +11,6 @@ public class User {
     private int age;
     private boolean isWorker;
 
-    private static final int MAX_LOGIN_LENGTH = 20;
-    private static final int MAX_PASSWORD_LENGTH = 20;
-
     public User() {
     }
 
@@ -157,14 +154,6 @@ public class User {
             throw new ValidationException("id должен содержать цифры и буквы. Передано значение: " + id);
         }
         this.id = id;
-    }
-
-    public static int getMaxLoginLength() {
-        return MAX_LOGIN_LENGTH;
-    }
-
-    public static int getMaxPasswordLength() {
-        return MAX_PASSWORD_LENGTH;
     }
 
     @Override
