@@ -1,5 +1,8 @@
 package ru.innopolis.attestations.attestation01.models;
 
+import ru.innopolis.attestations.attestation01.Utils;
+import ru.innopolis.attestations.attestation01.exceptions.ValidationException;
+
 import java.time.LocalDateTime;
 
 public class User {
@@ -8,32 +11,35 @@ public class User {
     private int age;
     private boolean isWorker;
 
-    public User() {}
-
-    public User(String line) {
-        String[] tokens = line.split("\\|");
-        this.id = tokens[0];
-        setCreatedAt(LocalDateTime.parse(tokens[1]));
-        this.login = tokens[2];
-        this.password = tokens[3];
-        this.confirmPassword = tokens[4];
-        this.lastName = tokens[5];
-        this.firstName = tokens[6];
-        this.middleName = tokens[7];
-        this.age = Integer.parseInt(tokens[8]);
-        this.isWorker = Boolean.parseBoolean(tokens[9]);
+    public User() {
     }
+
+    public User(String id, LocalDateTime createdAt, String login, String password, String confirmPassword, String lastName, String firstName, String middleName, int age, boolean isWorker) {
+        setId(id);
+        setCreatedAt(createdAt);
+        setLogin(login);
+        setPasswords(password, confirmPassword);
+        setLastName(lastName);
+        setFirstName(firstName);
+        setMiddleName(middleName);
+        setAge(age);
+        setWorker(isWorker);
+    }
+
+    // TODO:
+    //  я не очень понял насчет условий:
+    //  "isWorker – является ли сотрудником предприятия, по умолчанию false" и
+    //  "дата LocalDateTime добавления в систему, по умолчанию сегодня,формат: дата и время"
+    //  звучит так, будто нужно создавать конструкторы без этих полей? то есть конструктор с isWorker,
+    //  но без даты, потом наоборот, а также конструктор без обоих параметров, верно?
+    //  или я чересчур заморачиваюсь? :)
 
     public LocalDateTime getCreatedAt() {
         return createdAt;
     }
 
     public void setCreatedAt(LocalDateTime createdAt) {
-        if (createdAt == null) {
-            setCreatedAt();
-        } else {
-            this.createdAt = createdAt;
-        }
+        this.createdAt = createdAt;
     }
 
     public void setCreatedAt() {
@@ -45,23 +51,48 @@ public class User {
     }
 
     public void setLogin(String login) {
+        // "^(?=.*[a-zA-Z])(?=.*\\d+)(?=.*_).{1,20}$")
+        if (
+                login == null
+                        || login.length() > 20
+                        || !Utils.containsLetters(login)
+                        || !Utils.containsDigits(login)
+                        || !Utils.containsSymbol(login, '_')
+        ) {
+            throw new ValidationException("Логин должен содержать буквы, цифры, знак подчеркивания, меньше 20 символов. Передано значение: " + login);
+        }
         this.login = login;
+    }
+
+    public void setPasswords(String password, String confirmPassword) {
+        validatePassword(password);
+        validatePassword(confirmPassword);
+        if (!password.equals(confirmPassword)) {
+            throw new ValidationException("Пароли не совпадают");
+        }
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+    }
+
+    private void validatePassword(String password) {
+        if (
+                password == null
+                        || password.length() > 20
+                        || !Utils.containsLetters(password)
+                        || !Utils.containsDigits(password)
+                        || !Utils.containsSymbol(password, '_')
+        ) {
+            throw new ValidationException("Пароль должен содержать буквы, цифры, знак подчеркивания, меньше 20 символов");
+            // пароли даже неправильные не печатаем в консоль из соображений безопасности
+        }
     }
 
     public String getPassword() {
         return password;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getConfirmPassword() {
         return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
     }
 
     public String getLastName() {
@@ -69,6 +100,9 @@ public class User {
     }
 
     public void setLastName(String lastName) {
+        if (lastName == null || !Utils.containsLetters(lastName)) {
+            throw new ValidationException("Фамилия должна состоять только из букв. Передано значение: " + lastName);
+        }
         this.lastName = lastName;
     }
 
@@ -77,6 +111,9 @@ public class User {
     }
 
     public void setFirstName(String firstName) {
+        if (firstName == null || !Utils.containsLetters(firstName)) {
+            throw new ValidationException("Имя должно состоять только из букв. Передано значение: " + firstName);
+        }
         this.firstName = firstName;
     }
 
@@ -85,6 +122,9 @@ public class User {
     }
 
     public void setMiddleName(String middleName) {
+        if (middleName != null && !Utils.containsLetters(middleName)) {
+            throw new ValidationException("Отчество должно состоять только из букв. Передано значение: " + middleName);
+        }
         this.middleName = middleName;
     }
 
@@ -109,6 +149,10 @@ public class User {
     }
 
     public void setId(String id) {
+        // в условиях явно не сказано, что id должен быть в формате UUID, поэтому проверяем, что содержит цифры и буквы
+        if (id == null || !Utils.containsDigits(id) || !Utils.containsLetters(id)) {
+            throw new ValidationException("id должен содержать цифры и буквы. Передано значение: " + id);
+        }
         this.id = id;
     }
 

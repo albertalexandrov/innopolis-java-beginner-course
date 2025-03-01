@@ -2,12 +2,15 @@ package ru.innopolis.attestations.attestation01.repositories.impl;
 
 import ru.innopolis.attestations.attestation01.exceptions.UserAlreadyExistsException;
 import ru.innopolis.attestations.attestation01.exceptions.UserDoesNotExistException;
+import ru.innopolis.attestations.attestation01.exceptions.ValidationException;
 import ru.innopolis.attestations.attestation01.models.User;
 import ru.innopolis.attestations.attestation01.repositories.UsersRepository;
 
 import javax.swing.text.html.Option;
 import java.io.*;
 import java.nio.file.*;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeParseException;
 import java.util.*;
 
 public class UsersRepositoryFileImpl implements UsersRepository {
@@ -28,8 +31,52 @@ public class UsersRepositoryFileImpl implements UsersRepository {
 
     private void loadUsers(File file) throws IOException {
         try (var reader = new BufferedReader(new FileReader(file))) {
-            reader.lines().map(User::new).forEach(user -> USERS.put(user.getId(), user));
+            reader.lines().map(this::mapLineToUser).forEach(user -> USERS.put(user.getId(), user));
         }
+    }
+
+    private User mapLineToUser(String line) {
+        String[] tokens = line.split("\\|");
+        var user = new User();
+        user.setId(tokens[0]);
+        setCreatedAt(user, tokens[1]);
+        user.setLogin(tokens[2]);
+        user.setPasswords(tokens[3], tokens[4]);
+        user.setLastName(tokens[5]);
+        user.setFirstName(tokens[6]);
+        user.setMiddleName(tokens[7]);
+        setAge(user, tokens[8]);
+        setWorker(user, tokens[9]);
+        return user;
+    }
+
+    private void setWorker(User user, String unparsedIsWorker) {
+        if (!unparsedIsWorker.equalsIgnoreCase("true") && !unparsedIsWorker.equalsIgnoreCase("false")) {
+            var message = "Не удалось распарсить признак является ли пользователь сотрдуником предприятия. " +
+                          "Передано значение: " + unparsedIsWorker;
+            throw new ValidationException(message);
+        }
+        user.setWorker(Boolean.parseBoolean(unparsedIsWorker));
+    }
+
+    private void setAge(User user, String unparsedAge) {
+        int age;
+        try {
+            age = Integer.parseInt(unparsedAge);
+        } catch (NumberFormatException e) {
+            throw new ValidationException("Значение возраста должно быть целым числом");
+        }
+        user.setAge(age);
+    }
+
+    private void setCreatedAt(User user, String unparsedCreatedAt) {
+        LocalDateTime createdAt;
+        try {
+            createdAt = LocalDateTime.parse(unparsedCreatedAt);
+        } catch (DateTimeParseException e) {
+            throw new ValidationException("Не удалось распарсить время создания. Получено значение: " + unparsedCreatedAt);
+        }
+        user.setCreatedAt(createdAt);
     }
 
     private String mapUserToString(User user) {
@@ -63,7 +110,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
         try (
                 var writer = Files.newBufferedWriter(Paths.get(FILE_PATH), StandardOpenOption.WRITE, StandardOpenOption.TRUNCATE_EXISTING)
         ) {
-            for (var user: USERS.values()) {
+            for (var user : USERS.values()) {
                 var line = mapUserToString(user);
                 writer.write(line + "\n");
             }
