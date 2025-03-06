@@ -5,7 +5,7 @@ import ru.innopolis.attestations.attestation01.exceptions.UserNotFoundException;
 import ru.innopolis.attestations.attestation01.exceptions.ValidationException;
 import ru.innopolis.attestations.attestation01.models.User;
 import ru.innopolis.attestations.attestation01.repositories.UsersRepository;
-import ru.innopolis.attestations.attestation01.UserFieldsLinePositionsEnum;
+import ru.innopolis.attestations.attestation01.constants.UserFieldsLinePositionsEnum;
 
 import java.io.*;
 import java.nio.file.*;
@@ -36,6 +36,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     private User mapLineToUser(String line) {
+        // считаю уместным этот маппинг поместить именно здесь, тк это относится к работе с данными именно через файлы
         String[] tokens = line.split("\\|");
         var user = new User();
         user.setId(tokens[UserFieldsLinePositionsEnum.ID.getIndex()]);
@@ -54,6 +55,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     private void setWorker(User user, String unparsedIsWorker) {
+        // считаю уместным этот сеттер поместить именно здесь, тк это относится к работе с данными именно через файлы
         if (!unparsedIsWorker.equalsIgnoreCase("true") && !unparsedIsWorker.equalsIgnoreCase("false")) {
             var message = "Не удалось распарсить признак является ли пользователь сотрдуником предприятия. " +
                           "Передано значение: " + unparsedIsWorker;
@@ -63,6 +65,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     private void setAge(User user, String unparsedAge) {
+        // считаю уместным этот сеттер поместить именно здесь, тк это относится к работе с данными именно через файлы
         int age;
         try {
             age = Integer.parseInt(unparsedAge);
@@ -73,6 +76,7 @@ public class UsersRepositoryFileImpl implements UsersRepository {
     }
 
     private void setCreatedAt(User user, String unparsedCreatedAt) {
+        // считаю уместным этот сеттер поместить именно здесь, тк это относится к работе с данными именно через файлы
         LocalDateTime createdAt;
         try {
             createdAt = LocalDateTime.parse(unparsedCreatedAt);

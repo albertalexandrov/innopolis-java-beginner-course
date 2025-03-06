@@ -3,7 +3,7 @@ package ru.innopolis.attestations.attestation01.repositories.impl;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import ru.innopolis.attestations.attestation01.UserFieldsLinePositionsEnum;
+import ru.innopolis.attestations.attestation01.constants.UserFieldsLinePositionsEnum;
 import ru.innopolis.attestations.attestation01.exceptions.UserNotFoundException;
 import ru.innopolis.attestations.attestation01.models.User;
 
