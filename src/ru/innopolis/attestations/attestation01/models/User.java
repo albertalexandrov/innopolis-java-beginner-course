@@ -1,6 +1,6 @@
 package ru.innopolis.attestations.attestation01.models;
 
-import ru.innopolis.attestations.attestation01.Utils;
+import ru.innopolis.attestations.attestation01.utils.Utils;
 import ru.innopolis.attestations.attestation01.exceptions.ValidationException;
 
 import java.time.LocalDateTime;

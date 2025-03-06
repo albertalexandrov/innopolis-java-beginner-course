@@ -1,4 +1,4 @@
-package ru.innopolis.attestations.attestation01;
+package ru.innopolis.attestations.attestation01.utils;
 
 public final class Utils {
 

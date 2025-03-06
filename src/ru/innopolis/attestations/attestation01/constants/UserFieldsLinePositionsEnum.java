@@ -1,4 +1,4 @@
-package ru.innopolis.attestations.attestation01;
+package ru.innopolis.attestations.attestation01.constants;
 
 public enum UserFieldsLinePositionsEnum {
     ID(0),
