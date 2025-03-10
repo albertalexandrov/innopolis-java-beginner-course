@@ -1,27 +1,26 @@
 import cars.Car;
 import cars.PerformanceCar;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
+@ToString
+@NoArgsConstructor
+@EqualsAndHashCode
+@AllArgsConstructor
 public class Garage {
+
     private List<Car> parkedCars;
-
-    public Garage(List<Car> parkedCars) {
-        this.parkedCars = parkedCars;
-    }
-
-    public Garage() {
-        this.parkedCars = new ArrayList<>();
-    }
 
     public List<Car> getParkedCars() {
         return Collections.unmodifiableList(parkedCars);
     }
 
-    public void setParkedCar(Car car) {
+    public void addParkedCar(Car car) {
         this.parkedCars.add(car);
     }
 
@@ -29,26 +28,9 @@ public class Garage {
         // как на консультации
         for (Car car : parkedCars) {
             if (car instanceof PerformanceCar) {
-                ((PerformanceCar) car).setAddOn("Спойлер");
+                ((PerformanceCar) car).addAddOn("Спойлер");
             }
         }
     }
 
-    @Override
-    public String toString() {
-        return "Garage{" +
-                "parkedCars=" + parkedCars +
-                '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (!(o instanceof Garage garage)) return false;
-        return Objects.equals(getParkedCars(), garage.getParkedCars());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hashCode(getParkedCars());
-    }
 }
