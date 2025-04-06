@@ -8,6 +8,6 @@ import java.util.List;
 
 public interface OrdersRepository extends JpaRepository<Order, Long> {
 
-    List<Order> findOrderByCreatedAt(LocalDateTime createdAt);
+    List<Order> findOrdersByCreatedAt(LocalDateTime createdAt);
 
 }
