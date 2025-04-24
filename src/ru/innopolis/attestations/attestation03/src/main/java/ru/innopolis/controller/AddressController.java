@@ -29,23 +29,6 @@ public class AddressController {
     public ResponseEntity<List<RetrieveAddressDTO>> getAddresses(
             @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
     ) {
-        // todo:
-        //  тут не смог разобраться, как делать множественные фильтры
-        //  в примере на странице https://www.restack.io/p/spring-boot-answer-search-filter-api-cat-ai
-        //  предоставлен странный пример, которые может привести к комбинаторному взрыву:
-        //   @Service
-        //   public class ProductService {
-        //     @Autowired
-        //     private ProductRepository productRepository;
-        //     public List<Product> searchProducts(String name, String category) {
-        //        if (name != null && !name.isEmpty()) {
-        //            return productRepository.findByNameContaining(name);
-        //        } else if (category != null && !category.isEmpty()) {
-        //            return productRepository.findByCategory(category);
-        //        }
-        //        return productRepository.findAll();
-        //    }
-        //  }
         var addresses = addressService.getAddresses(userId);
         var body = addressMapper.map(addresses);
         return ResponseEntity.ok(body);
@@ -78,11 +61,5 @@ public class AddressController {
     ) {
         addressService.softDeleteAddress(addressId);
     }
-
-//    @PostMapping
-//    @Operation(summary = "Создание адреса")
-//    public ResponseEntity<Address> createAddress(@RequestBody CreateAddressDTO address) {
-//
-//    }
 
 }
