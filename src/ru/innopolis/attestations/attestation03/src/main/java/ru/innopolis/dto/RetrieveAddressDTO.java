@@ -14,6 +14,6 @@ public class RetrieveAddressDTO {
     public String porch;
     public String floor;
     public String apartment;
-    public Long userId;  // todo: как смапить UserDTO?
+    public Long userId;
 
 }

@@ -22,8 +22,7 @@ public class AddressServiceImpl implements AddressService {
     private final AddressMapper addressMapper;
 
     @Override
-    public List<Address> getAddresses(Long userId) {
-        // todo: а если фильтров больше чем один или два?
+    public List<Address> listAddresses(Long userId) {
         if (userId == null) {
             return addressRepository.findAddressesByIsDeleted(false);
         } else {

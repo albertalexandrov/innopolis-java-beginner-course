@@ -8,12 +8,9 @@ import java.util.List;
 
 public interface AddressService {
 
-    List<Address> getAddresses(Long id);
-
     Address createAddress(CreateAddressDTO data);
-
+    List<Address> listAddresses(Long id);
     Address updateAddress(Long addressId, UpdateAddressDTO data);
-
     void softDeleteAddress(Long addressId);
 
 }

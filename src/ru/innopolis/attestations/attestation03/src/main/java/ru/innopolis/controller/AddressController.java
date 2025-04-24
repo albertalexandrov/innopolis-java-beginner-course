@@ -11,17 +11,17 @@ import ru.innopolis.dto.CreateAddressDTO;
 import ru.innopolis.dto.RetrieveAddressDTO;
 import ru.innopolis.dto.UpdateAddressDTO;
 import ru.innopolis.mappers.AddressMapper;
-import ru.innopolis.service.AddressServiceImpl;
+import ru.innopolis.service.AddressService;
 
 import java.util.List;
 
-@RestController("Адреса")
+@RestController
 @RequiredArgsConstructor
 @Tag(name = "Адреса", description = "Контроллер для работы с адресами")
 public class AddressController {
     // получения по id нет намеренно
 
-    private final AddressServiceImpl addressService;
+    private final AddressService addressService;
     private final AddressMapper addressMapper;
 
     @GetMapping("/addresses")
@@ -29,7 +29,7 @@ public class AddressController {
     public ResponseEntity<List<RetrieveAddressDTO>> getAddresses(
             @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
     ) {
-        var addresses = addressService.getAddresses(userId);
+        var addresses = addressService.listAddresses(userId);
         var body = addressMapper.map(addresses);
         return ResponseEntity.ok(body);
     }
