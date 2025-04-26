@@ -1,6 +1,5 @@
 package ru.innopolis.service;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.innopolis.dto.UserCreateUpdateDTO;
@@ -29,7 +28,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User getUser(Long userId) {
         return userRepository
-                .findByIdAndIsDeleted(userId, false)
+                .findFirstByIdAndIsDeleted(userId, false)
                 .orElseThrow(UserNotFoundException::new);
     }
 
@@ -42,7 +41,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User updateUser(Long userId, UserCreateUpdateDTO data) {
         var user = userRepository
-                .findByIdAndIsDeleted(userId, false)
+                .findFirstByIdAndIsDeleted(userId, false)
                 .orElseThrow(UserNotFoundException::new);
         user.setLastName(data.getLastName());
         user.setFirstName(data.getFirstName());
@@ -54,7 +53,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteUser(Long userId) {
         var user = userRepository
-                .findByIdAndIsDeleted(userId, false)
+                .findFirstByIdAndIsDeleted(userId, false)
                 .orElseThrow(UserNotFoundException::new);
         user.setIsDeleted(true);
         userRepository.save(user);

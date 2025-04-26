@@ -16,7 +16,6 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class AddressServiceImpl implements AddressService {
-
     private final AddressRepository addressRepository;
     private final UserRepository userRepository;
     private final AddressMapper addressMapper;
@@ -33,7 +32,9 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public Address createAddress(AddressCreateDTO data) {
         var address = addressMapper.map(data);
-        var user = userRepository.findByIdAndIsDeleted(data.getUserId(), false).orElseThrow(() -> new BadRequestException("Пользователь не найден"));
+        var user = userRepository
+                .findFirstByIdAndIsDeleted(data.getUserId(), false)
+                .orElseThrow(() -> new BadRequestException("Пользователь не найден"));
         address.setUser(user);
         address.setIsDeleted(false);
         addressRepository.save(address);
@@ -42,7 +43,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public Address updateAddress(Long addressId, AddressUpdateDTO data) {
-        Address address = addressRepository.findByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
+        Address address = addressRepository.findFirstByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
         address.setLocality(data.getLocality());
         address.setStreet(data.getStreet());
         address.setHouse(data.getHouse());
@@ -55,7 +56,7 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public void softDeleteAddress(Long addressId) {
-        Address address = addressRepository.findByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
+        Address address = addressRepository.findFirstByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
         address.setIsDeleted(true);
         addressRepository.save(address);
     }

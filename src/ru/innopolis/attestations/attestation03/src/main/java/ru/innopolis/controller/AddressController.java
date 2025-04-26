@@ -21,7 +21,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @Tag(name = "Адреса", description = "Контроллер для работы с адресами")
 public class AddressController {
-    // получения по id нет намеренно
 
     private final AddressService addressService;
     private final AddressMapper addressMapper;
@@ -32,8 +31,7 @@ public class AddressController {
             @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
     ) {
         var addresses = addressService.listAddresses(userId);
-        var body = addressMapper.map(addresses);
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok(addressMapper.map(addresses));
     }
 
     @PostMapping(value = "/address", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -43,10 +41,9 @@ public class AddressController {
             @Valid @RequestBody AddressCreateDTO data
     ) {
         var address = addressService.createAddress(data);
-        var body = addressMapper.map(address);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(body);
+                .body(addressMapper.map(address));
     }
 
     @PutMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -56,8 +53,7 @@ public class AddressController {
             @Valid @RequestBody AddressUpdateDTO data
     ) {
         var address = addressService.updateAddress(addressId, data);
-        var body = addressMapper.map(address);
-        return ResponseEntity.ok(body);
+        return ResponseEntity.ok(addressMapper.map(address));
     }
 
     @DeleteMapping("/address/{id}")

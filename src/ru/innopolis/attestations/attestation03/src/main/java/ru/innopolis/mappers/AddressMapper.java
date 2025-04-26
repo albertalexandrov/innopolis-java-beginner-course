@@ -17,7 +17,6 @@ public interface AddressMapper {
     @Mapping(target = "user", ignore = true)
     Address map(AddressCreateDTO data);
 
-//    @Mapping(source = "user.id", target = "userId")
     AddressRetrieveDTO map(Address address);
 
     List<AddressRetrieveDTO> map(List<Address> addresses);

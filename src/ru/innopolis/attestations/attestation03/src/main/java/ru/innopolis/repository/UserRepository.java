@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User, Long> {
-    Optional<User> findByIdAndIsDeleted(Long id, Boolean isDeleted);
+    Optional<User> findFirstByIdAndIsDeleted(Long id, Boolean isDeleted);
 
     List<User> findAllByIsDeleted(Boolean isDeleted);
 }

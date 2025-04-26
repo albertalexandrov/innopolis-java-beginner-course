@@ -33,11 +33,11 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new BadRequestException("Пицца не найдена"));
         order.setPizza(pizza);
         var user = userRepository
-                .findByIdAndIsDeleted(data.getUserId(), false)
+                .findFirstByIdAndIsDeleted(data.getUserId(), false)
                 .orElseThrow(() -> new BadRequestException("Пользователь не найден"));
         order.setUser(user);
         var address = addressRepository
-                .findByIdAndIsDeleted(data.getAddressId(), false)
+                .findFirstByIdAndIsDeleted(data.getAddressId(), false)
                 .orElseThrow(() -> new BadRequestException("Адрес не найден"));
         order.setAddress(address);
         order.setIsDeleted(false);
@@ -54,7 +54,7 @@ public class OrderServiceImpl implements OrderService {
                 .orElseThrow(() -> new BadRequestException("Пицца не найдена"));
         order.setPizza(pizza);
         var address = addressRepository
-                .findByIdAndIsDeleted(data.getAddressId(), false)
+                .findFirstByIdAndIsDeleted(data.getAddressId(), false)
                 .orElseThrow(() -> new BadRequestException("Адрес не найден"));
         order.setAddress(address);
         return orderRepository.save(order);
