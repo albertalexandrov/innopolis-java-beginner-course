@@ -38,10 +38,15 @@ public class AddressController {
 
     @PostMapping(value = "/address", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Создает адрес")
-    public ResponseEntity<AddressRetrieveDTO> createAddress(@Valid @RequestBody AddressCreateDTO data) {
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<AddressRetrieveDTO> createAddress(
+            @Valid @RequestBody AddressCreateDTO data
+    ) {
         var address = addressService.createAddress(data);
         var body = addressMapper.map(address);
-        return ResponseEntity.ok(body);
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(body);
     }
 
     @PutMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
