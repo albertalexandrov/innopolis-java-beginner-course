@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 
 public class UserRetrieveDTO {
 
-    @Schema(example = "1")
+    @Schema(description = "Идентификатор пользователя", example = "1")
     public Long id;
 
     @Schema(description = "Имя", example = "Иван")

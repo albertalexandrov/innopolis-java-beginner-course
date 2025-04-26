@@ -8,7 +8,7 @@ import lombok.Setter;
 @Setter
 public class RetrievePizzaDTO {
 
-    @Schema(example = "1")
+    @Schema(description = "Идентификатор пиццы", example = "1")
     public Long id;
 
     @Schema(description = "Название", example = "Пеперони")

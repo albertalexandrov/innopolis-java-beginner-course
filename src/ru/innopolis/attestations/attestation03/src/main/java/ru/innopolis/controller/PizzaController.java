@@ -3,6 +3,7 @@ package ru.innopolis.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,7 +26,7 @@ public class PizzaController {
     @PostMapping("/pizza")
     @Operation(summary = "Создает пиццу")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<RetrievePizzaDTO> createPizza(@RequestBody PizzaCreateUpdateDTO data) {
+    public ResponseEntity<RetrievePizzaDTO> createPizza(@Valid @RequestBody PizzaCreateUpdateDTO data) {
         var pizza = pizzaService.createPizza(data);
         return ResponseEntity.status(HttpStatus.CREATED).body(pizzaMapper.map(pizza));
     }
@@ -48,7 +49,7 @@ public class PizzaController {
     @PutMapping("/pizza/{id}")
     @Operation(summary = "Обновляет пиццу")
     public ResponseEntity<RetrievePizzaDTO> updatePizza(
-            @PathVariable("id") Long pizzaId, @RequestBody PizzaCreateUpdateDTO data
+            @PathVariable("id") Long pizzaId, @Valid @RequestBody PizzaCreateUpdateDTO data
     ) {
         var pizza = pizzaService.updatePizza(pizzaId, data);
         return ResponseEntity.ok(pizzaMapper.map(pizza));

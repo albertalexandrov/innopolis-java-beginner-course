@@ -1,8 +1,8 @@
 package ru.innopolis.mappers;
 
 import org.mapstruct.*;
-import ru.innopolis.dto.CreateAddressDTO;
-import ru.innopolis.dto.RetrieveAddressDTO;
+import ru.innopolis.dto.AddressCreateDTO;
+import ru.innopolis.dto.AddressRetrieveDTO;
 import ru.innopolis.entity.Address;
 
 import java.util.List;
@@ -15,10 +15,10 @@ import java.util.List;
 public interface AddressMapper {
 
     @Mapping(target = "user", ignore = true)
-    Address map(CreateAddressDTO data);
+    Address map(AddressCreateDTO data);
 
-    @Mapping(source = "user.id", target = "userId")
-    RetrieveAddressDTO map(Address address);
+//    @Mapping(source = "user.id", target = "userId")
+    AddressRetrieveDTO map(Address address);
 
-    List<RetrieveAddressDTO> map(List<Address> addresses);
+    List<AddressRetrieveDTO> map(List<Address> addresses);
 }

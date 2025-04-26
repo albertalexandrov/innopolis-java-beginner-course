@@ -3,13 +3,14 @@ package ru.innopolis.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import ru.innopolis.dto.CreateAddressDTO;
-import ru.innopolis.dto.RetrieveAddressDTO;
-import ru.innopolis.dto.UpdateAddressDTO;
+import ru.innopolis.dto.AddressCreateDTO;
+import ru.innopolis.dto.AddressRetrieveDTO;
+import ru.innopolis.dto.AddressUpdateDTO;
 import ru.innopolis.mappers.AddressMapper;
 import ru.innopolis.service.AddressService;
 
@@ -26,7 +27,7 @@ public class AddressController {
 
     @GetMapping("/addresses")
     @Operation(summary = "Возвращает список адресов")
-    public ResponseEntity<List<RetrieveAddressDTO>> getAddresses(
+    public ResponseEntity<List<AddressRetrieveDTO>> getAddresses(
             @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
     ) {
         var addresses = addressService.listAddresses(userId);
@@ -36,7 +37,7 @@ public class AddressController {
 
     @PostMapping("/address")
     @Operation(summary = "Создает адрес")
-    public ResponseEntity<RetrieveAddressDTO> createAddress(@RequestBody CreateAddressDTO data) {
+    public ResponseEntity<AddressRetrieveDTO> createAddress(@Valid @RequestBody AddressCreateDTO data) {
         var address = addressService.createAddress(data);
         var body = addressMapper.map(address);
         return ResponseEntity.ok(body);
@@ -44,9 +45,9 @@ public class AddressController {
 
     @PutMapping("/address/{id}")
     @Operation(summary = "Обновляет адрес")
-    public ResponseEntity<RetrieveAddressDTO> updateAddress(
+    public ResponseEntity<AddressRetrieveDTO> updateAddress(
             @Parameter(description = "Идентификатор адреса", example = "1") @PathVariable(name = "id") Long addressId,
-            @RequestBody UpdateAddressDTO data
+            @Valid @RequestBody AddressUpdateDTO data
     ) {
         var address = addressService.updateAddress(addressId, data);
         var body = addressMapper.map(address);

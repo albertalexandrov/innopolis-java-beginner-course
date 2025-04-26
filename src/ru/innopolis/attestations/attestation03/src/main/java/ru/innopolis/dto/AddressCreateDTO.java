@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RetrieveAddressDTO {
-
-    public Long id;
+public class AddressCreateDTO {
     public String locality;
     public String street;
     public String house;
@@ -15,5 +13,4 @@ public class RetrieveAddressDTO {
     public String floor;
     public String apartment;
     public Long userId;
-
 }

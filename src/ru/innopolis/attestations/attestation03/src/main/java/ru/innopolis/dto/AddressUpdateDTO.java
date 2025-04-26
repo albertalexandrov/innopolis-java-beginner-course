@@ -5,12 +5,14 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class CreateAddressDTO {
+public class AddressUpdateDTO {
+
     public String locality;
     public String street;
     public String house;
     public String porch;
     public String floor;
     public String apartment;
-    public Long userId;
+    // тут нет userId
+
 }

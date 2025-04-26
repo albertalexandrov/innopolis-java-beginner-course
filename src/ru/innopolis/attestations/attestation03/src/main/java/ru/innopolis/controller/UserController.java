@@ -3,6 +3,7 @@ package ru.innopolis.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -38,23 +39,21 @@ public class UserController {
             @Parameter(description = "Идентификатор пользователя", example = "1") @PathVariable(name = "id") Long userId
     ) {
         var user = userService.getUser(userId);
-        return ResponseEntity
-                .ok(userMapper.map(user));
+        return ResponseEntity.ok(userMapper.map(user));
     }
 
     @GetMapping("/users")
     @Operation(summary = "Возвращает пользователей")
     public ResponseEntity<List<UserRetrieveDTO>> getUsers() {
         var users = userService.listUsers();
-        return ResponseEntity
-                .ok(userMapper.map(users));
+        return ResponseEntity.ok(userMapper.map(users));
     }
 
     @PutMapping("/user/{id}")
     @Operation(summary = "Обновляет пользователя")
     public ResponseEntity<UserRetrieveDTO> updateUser(
             @Parameter(description = "Идентификатор пользователя", example = "1") @PathVariable(name = "id") Long userId,
-            @RequestBody UserCreateUpdateDTO data
+            @Valid @RequestBody UserCreateUpdateDTO data
     ) {
         var user = userService.updateUser(userId, data);
         return ResponseEntity

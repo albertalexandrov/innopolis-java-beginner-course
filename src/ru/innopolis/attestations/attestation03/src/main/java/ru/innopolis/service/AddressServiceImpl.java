@@ -2,8 +2,8 @@ package ru.innopolis.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import ru.innopolis.dto.CreateAddressDTO;
-import ru.innopolis.dto.UpdateAddressDTO;
+import ru.innopolis.dto.AddressCreateDTO;
+import ru.innopolis.dto.AddressUpdateDTO;
 import ru.innopolis.entity.Address;
 import ru.innopolis.exceptions.BadRequestException;
 import ru.innopolis.mappers.AddressMapper;
@@ -31,7 +31,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address createAddress(CreateAddressDTO data) {
+    public Address createAddress(AddressCreateDTO data) {
         var address = addressMapper.map(data);
         var user = userRepository.findByIdAndIsDeleted(data.getUserId(), false).orElseThrow(() -> new BadRequestException("Пользователь не найден"));
         address.setUser(user);
@@ -41,7 +41,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public Address updateAddress(Long addressId, UpdateAddressDTO data) {
+    public Address updateAddress(Long addressId, AddressUpdateDTO data) {
         Address address = addressRepository.findByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
         address.setLocality(data.getLocality());
         address.setStreet(data.getStreet());
