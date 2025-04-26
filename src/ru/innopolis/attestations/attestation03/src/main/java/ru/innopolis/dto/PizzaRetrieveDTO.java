@@ -6,7 +6,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class RetrievePizzaDTO {
+public class PizzaRetrieveDTO {
 
     @Schema(description = "Идентификатор пиццы", example = "1")
     public Long id;

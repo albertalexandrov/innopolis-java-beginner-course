@@ -6,7 +6,7 @@ import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 import org.mapstruct.ReportingPolicy;
 import ru.innopolis.dto.PizzaCreateUpdateDTO;
-import ru.innopolis.dto.RetrievePizzaDTO;
+import ru.innopolis.dto.PizzaRetrieveDTO;
 import ru.innopolis.entity.Pizza;
 
 import java.util.List;
@@ -20,7 +20,7 @@ public interface PizzaMapper {
 
     Pizza map(PizzaCreateUpdateDTO data);
 
-    RetrievePizzaDTO map(Pizza pizza);
+    PizzaRetrieveDTO map(Pizza pizza);
 
-    List<RetrievePizzaDTO> map(List<Pizza> pizzas);
+    List<PizzaRetrieveDTO> map(List<Pizza> pizzas);
 }

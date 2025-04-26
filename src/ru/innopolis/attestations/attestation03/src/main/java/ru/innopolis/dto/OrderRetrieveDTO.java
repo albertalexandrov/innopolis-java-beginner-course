@@ -15,7 +15,7 @@ public class OrderRetrieveDTO {
     public UserRetrieveDTO user;
 
     @Schema(description = "Пицца")
-    public RetrievePizzaDTO pizza;
+    public PizzaRetrieveDTO pizza;
 
     @Schema(description = "Адреса доставки")
     public AddressRetrieveDTO address;
