@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.innopolis.dto.PizzaCreateUpdateDTO;
@@ -23,7 +24,7 @@ public class PizzaController {
     private final PizzaService pizzaService;
     private final PizzaMapper pizzaMapper;
 
-    @PostMapping("/pizza")
+    @PostMapping(value = "/pizza", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Создает пиццу")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<RetrievePizzaDTO> createPizza(@Valid @RequestBody PizzaCreateUpdateDTO data) {
@@ -31,14 +32,14 @@ public class PizzaController {
         return ResponseEntity.status(HttpStatus.CREATED).body(pizzaMapper.map(pizza));
     }
 
-    @GetMapping("/pizza/{id}")
+    @GetMapping(value = "/pizza/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает пиццу")
     public ResponseEntity<RetrievePizzaDTO> getPizza(@PathVariable("id") Long pizzaId) {
         var pizza = pizzaService.getPizza(pizzaId);
         return ResponseEntity.ok(pizzaMapper.map(pizza));
     }
 
-    @GetMapping("/pizzas")
+    @GetMapping(value = "/pizzas", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает список пицц")
     public ResponseEntity<List<RetrievePizzaDTO>> listPizzas(
             @Parameter(description = "Название пиццы", example = "пеперони") @RequestParam(required = false) String name) {
@@ -46,7 +47,7 @@ public class PizzaController {
         return ResponseEntity.ok(pizzaMapper.map(pizzas));
     }
 
-    @PutMapping("/pizza/{id}")
+    @PutMapping(value = "/pizza/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Обновляет пиццу")
     public ResponseEntity<RetrievePizzaDTO> updatePizza(
             @PathVariable("id") Long pizzaId, @Valid @RequestBody PizzaCreateUpdateDTO data

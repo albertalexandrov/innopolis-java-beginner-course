@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.innopolis.dto.UserCreateUpdateDTO;
@@ -23,7 +24,7 @@ public class UserController {
     private final UserService userService;
     private final UserMapper userMapper;
 
-    @PostMapping("/user")
+    @PostMapping(value = "/user", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Создает пользователя")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<UserRetrieveDTO> user(@RequestBody UserCreateUpdateDTO data) {
@@ -33,7 +34,7 @@ public class UserController {
                 .body(userMapper.map(user));
     }
 
-    @GetMapping("/user/{id}")
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает пользователя")
     public ResponseEntity<UserRetrieveDTO> user(
             @Parameter(description = "Идентификатор пользователя", example = "1") @PathVariable(name = "id") Long userId
@@ -42,14 +43,14 @@ public class UserController {
         return ResponseEntity.ok(userMapper.map(user));
     }
 
-    @GetMapping("/users")
+    @GetMapping(value = "/users", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает пользователей")
     public ResponseEntity<List<UserRetrieveDTO>> getUsers() {
         var users = userService.listUsers();
         return ResponseEntity.ok(userMapper.map(users));
     }
 
-    @PutMapping("/user/{id}")
+    @PutMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Обновляет пользователя")
     public ResponseEntity<UserRetrieveDTO> updateUser(
             @Parameter(description = "Идентификатор пользователя", example = "1") @PathVariable(name = "id") Long userId,

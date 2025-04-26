@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.innopolis.dto.AddressCreateDTO;
@@ -25,7 +26,7 @@ public class AddressController {
     private final AddressService addressService;
     private final AddressMapper addressMapper;
 
-    @GetMapping("/addresses")
+    @GetMapping(value = "/addresses", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает список адресов")
     public ResponseEntity<List<AddressRetrieveDTO>> getAddresses(
             @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
@@ -35,7 +36,7 @@ public class AddressController {
         return ResponseEntity.ok(body);
     }
 
-    @PostMapping("/address")
+    @PostMapping(value = "/address", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Создает адрес")
     public ResponseEntity<AddressRetrieveDTO> createAddress(@Valid @RequestBody AddressCreateDTO data) {
         var address = addressService.createAddress(data);
@@ -43,7 +44,7 @@ public class AddressController {
         return ResponseEntity.ok(body);
     }
 
-    @PutMapping("/address/{id}")
+    @PutMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Обновляет адрес")
     public ResponseEntity<AddressRetrieveDTO> updateAddress(
             @Parameter(description = "Идентификатор адреса", example = "1") @PathVariable(name = "id") Long addressId,
