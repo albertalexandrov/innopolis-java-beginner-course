@@ -5,12 +5,12 @@ import ru.innopolis.dto.AddressUpdateDTO;
 import ru.innopolis.entity.Address;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AddressService {
-
     Address createAddress(AddressCreateDTO data);
-    List<Address> listAddresses(Long id);
+    Address getAddress(Long id);
+    List<Address> listAddresses(Long userId);
     Address updateAddress(Long addressId, AddressUpdateDTO data);
     void softDeleteAddress(Long addressId);
-
 }

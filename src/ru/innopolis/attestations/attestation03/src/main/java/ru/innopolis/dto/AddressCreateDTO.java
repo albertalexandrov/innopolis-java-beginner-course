@@ -1,11 +1,13 @@
 package ru.innopolis.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
+@Builder
 public class AddressCreateDTO {
 
     @Schema(description = "Населенный пункт", example = "г. Казань")

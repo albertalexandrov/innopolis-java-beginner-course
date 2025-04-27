@@ -25,15 +25,6 @@ public class AddressController {
     private final AddressService addressService;
     private final AddressMapper addressMapper;
 
-    @GetMapping(value = "/addresses", produces = MediaType.APPLICATION_JSON_VALUE)
-    @Operation(summary = "Возвращает список адресов")
-    public ResponseEntity<List<AddressRetrieveDTO>> getAddresses(
-            @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
-    ) {
-        var addresses = addressService.listAddresses(userId);
-        return ResponseEntity.ok(addressMapper.map(addresses));
-    }
-
     @PostMapping(value = "/address", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Создает адрес")
     @ResponseStatus(HttpStatus.CREATED)
@@ -46,6 +37,24 @@ public class AddressController {
                 .body(addressMapper.map(address));
     }
 
+    @GetMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Возвращает адрес")
+    public ResponseEntity<AddressRetrieveDTO> getAddress(
+            @Parameter(description = "Идентификатор адреса") @PathVariable(name = "id") Long addressId) {
+        var address = addressService.getAddress(addressId);
+        return ResponseEntity
+                .ok(addressMapper.map(address));
+    }
+
+    @GetMapping(value = "/addresses", produces = MediaType.APPLICATION_JSON_VALUE)
+    @Operation(summary = "Возвращает список адресов")
+    public ResponseEntity<List<AddressRetrieveDTO>> getAddresses(
+            @Parameter(description = "Идентификатор пользователя", example = "1") @RequestParam(required = false) Long userId
+    ) {
+        var addresses = addressService.listAddresses(userId);
+        return ResponseEntity.ok(addressMapper.map(addresses));
+    }
+
     @PutMapping(value = "/address/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Обновляет адрес")
     public ResponseEntity<AddressRetrieveDTO> updateAddress(
@@ -53,7 +62,8 @@ public class AddressController {
             @Valid @RequestBody AddressUpdateDTO data
     ) {
         var address = addressService.updateAddress(addressId, data);
-        return ResponseEntity.ok(addressMapper.map(address));
+        return ResponseEntity
+                .ok(addressMapper.map(address));
     }
 
     @DeleteMapping("/address/{id}")

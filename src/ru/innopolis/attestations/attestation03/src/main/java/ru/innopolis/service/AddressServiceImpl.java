@@ -21,15 +21,6 @@ public class AddressServiceImpl implements AddressService {
     private final AddressMapper addressMapper;
 
     @Override
-    public List<Address> listAddresses(Long userId) {
-        if (userId == null) {
-            return addressRepository.findAddressesByIsDeleted(false);
-        } else {
-            return addressRepository.findAddressesByUserIdAndIsDeleted(userId, false);
-        }
-    }
-
-    @Override
     public Address createAddress(AddressCreateDTO data) {
         var address = addressMapper.map(data);
         var user = userRepository
@@ -37,26 +28,44 @@ public class AddressServiceImpl implements AddressService {
                 .orElseThrow(() -> new BadRequestException("Пользователь не найден"));
         address.setUser(user);
         address.setIsDeleted(false);
-        addressRepository.save(address);
-        return address;
+        return addressRepository.save(address);
+    }
+
+    @Override
+    public Address getAddress(Long addressId) {
+        return addressRepository
+                .findFirstByIdAndIsDeleted(addressId, false)
+                .orElseThrow(AddressNotFoundException::new);
+    }
+
+    @Override
+    public List<Address> listAddresses(Long userId) {
+        if (userId == null) {
+            return addressRepository.findAllByIsDeleted(false);
+        } else {
+            return addressRepository.findAllByUserIdAndIsDeleted(userId, false);
+        }
     }
 
     @Override
     public Address updateAddress(Long addressId, AddressUpdateDTO data) {
-        Address address = addressRepository.findFirstByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
+        Address address = addressRepository
+                .findFirstByIdAndIsDeleted(addressId, false)
+                .orElseThrow(AddressNotFoundException::new);
         address.setLocality(data.getLocality());
         address.setStreet(data.getStreet());
         address.setHouse(data.getHouse());
         address.setPorch(data.getPorch());
         address.setFloor(data.getFloor());
         address.setApartment(data.getApartment());
-        addressRepository.save(address);
-        return address;
+        return addressRepository.save(address);
     }
 
     @Override
     public void softDeleteAddress(Long addressId) {
-        Address address = addressRepository.findFirstByIdAndIsDeleted(addressId, false).orElseThrow(AddressNotFoundException::new);
+        Address address = addressRepository
+                .findFirstByIdAndIsDeleted(addressId, false)
+                .orElseThrow(AddressNotFoundException::new);
         address.setIsDeleted(true);
         addressRepository.save(address);
     }
