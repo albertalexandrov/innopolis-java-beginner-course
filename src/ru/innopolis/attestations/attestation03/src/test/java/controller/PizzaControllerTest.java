@@ -146,7 +146,7 @@ public class PizzaControllerTest {
     void updatePizza_PizzaNotFound() throws Exception {
         when(pizzaRepository.findFirstByIdAndIsDeleted(pizza.getId(), false))
                 .thenReturn(Optional.empty());
-        ResultActions response = mockMvc.perform(put("/user/{id}", pizza.getId())
+        ResultActions response = mockMvc.perform(put("/pizza/{id}", pizza.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(pizzaUpdateDTO))
                 .accept(MediaType.APPLICATION_JSON)
