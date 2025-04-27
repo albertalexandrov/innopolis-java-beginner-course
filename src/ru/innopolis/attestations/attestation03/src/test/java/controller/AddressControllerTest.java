@@ -14,12 +14,9 @@ import org.springframework.test.web.servlet.ResultActions;
 import ru.innopolis.Application;
 import ru.innopolis.dto.AddressCreateDTO;
 import ru.innopolis.dto.AddressUpdateDTO;
-import ru.innopolis.dto.PizzaCreateUpdateDTO;
 import ru.innopolis.entity.Address;
-import ru.innopolis.entity.Pizza;
 import ru.innopolis.entity.User;
 import ru.innopolis.repository.AddressRepository;
-import ru.innopolis.repository.PizzaRepository;
 import ru.innopolis.repository.UserRepository;
 
 import java.util.ArrayList;

@@ -45,6 +45,22 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public Order getOrder(Long orderId) {
+        return orderRepository
+                .findFirstByIdAndIsDeleted(orderId, false)
+                .orElseThrow(OrderNotFoundException::new);
+    }
+
+    @Override
+    public List<Order> getOrders(Long userId) {
+        if (userId == null) {
+            return orderRepository.findAllByIsDeleted(false);
+        } else {
+            return orderRepository.findAllByUserIdAndIsDeleted(userId, false);
+        }
+    }
+
+    @Override
     public Order updateOrder(Long orderId, OrderUpdateDTO data) {
         var order = orderRepository
                 .findFirstByIdAndIsDeleted(orderId, false)
@@ -61,15 +77,6 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Order> getOrders(Long userId) {
-        if (userId == null) {
-            return orderRepository.findByIsDeleted(false);
-        } else {
-            return orderRepository.findByUserIdAndIsDeleted(userId, false);
-        }
-    }
-
-    @Override
     public void deleteOrder(Long orderId) {
         var order = orderRepository
                 .findFirstByIdAndIsDeleted(orderId, false)
@@ -78,10 +85,4 @@ public class OrderServiceImpl implements OrderService {
         orderRepository.save(order);
     }
 
-    @Override
-    public Order getOrder(Long orderId) {
-        return orderRepository
-                .findFirstByIdAndIsDeleted(orderId, false)
-                .orElseThrow(OrderNotFoundException::new);
-    }
 }
