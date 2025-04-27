@@ -21,21 +21,20 @@ public class PizzaServiceImpl implements PizzaService {
     public Pizza createPizza(PizzaCreateUpdateDTO data) {
         Pizza pizza = pizzaMapper.map(data);
         pizza.setIsDeleted(false);
-        pizzaRepository.save(pizza);
-        return pizza;
+        return pizzaRepository.save(pizza);
     }
 
     @Override
     public Pizza getPizza(Long pizzaId) {
         return pizzaRepository
-                .findByIdAndIsDeleted(pizzaId, false)
+                .findFirstByIdAndIsDeleted(pizzaId, false)
                 .orElseThrow(PizzaNotFoundException::new);
     }
 
     @Override
     public List<Pizza> listPizzas(String name) {
         if (name == null || name.isEmpty()) {
-            return pizzaRepository.findAll();
+            return pizzaRepository.findAllByIsDeleted(false);
         } else {
             return pizzaRepository
                     .findAllByIsDeletedAndNameContainsIgnoreCase(false, name);
@@ -45,17 +44,16 @@ public class PizzaServiceImpl implements PizzaService {
     @Override
     public Pizza updatePizza(Long pizzaId, PizzaCreateUpdateDTO data) {
         var pizza = pizzaRepository
-                .findByIdAndIsDeleted(pizzaId, false)
+                .findFirstByIdAndIsDeleted(pizzaId, false)
                 .orElseThrow(PizzaNotFoundException::new);
         pizza.setName(data.getName());
-        pizzaRepository.save(pizza);
-        return pizza;
+        return pizzaRepository.save(pizza);
     }
 
     @Override
     public void softDeletePizza(Long pizzaId) {
         var pizza = pizzaRepository
-                .findByIdAndIsDeleted(pizzaId, false)
+                .findFirstByIdAndIsDeleted(pizzaId, false)
                 .orElseThrow(PizzaNotFoundException::new);
         pizza.setIsDeleted(true);
         pizzaRepository.save(pizza);

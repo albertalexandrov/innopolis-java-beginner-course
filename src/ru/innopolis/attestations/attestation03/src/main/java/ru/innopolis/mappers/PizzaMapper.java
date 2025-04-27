@@ -17,10 +17,7 @@ import java.util.List;
         nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE
 )
 public interface PizzaMapper {
-
     Pizza map(PizzaCreateUpdateDTO data);
-
     PizzaRetrieveDTO map(Pizza pizza);
-
     List<PizzaRetrieveDTO> map(List<Pizza> pizzas);
 }

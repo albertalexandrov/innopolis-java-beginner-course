@@ -29,7 +29,7 @@ public class OrderServiceImpl implements OrderService {
     public Order createOrder(OrderCreateDTO data) {
         var order = new Order();
         var pizza = pizzaRepository
-                .findByIdAndIsDeleted(data.getPizzaId(), false)
+                .findFirstByIdAndIsDeleted(data.getPizzaId(), false)
                 .orElseThrow(() -> new BadRequestException("Пицца не найдена"));
         order.setPizza(pizza);
         var user = userRepository
@@ -50,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
                 .findFirstByIdAndIsDeleted(orderId, false)
                 .orElseThrow(OrderNotFoundException::new);
         var pizza = pizzaRepository
-                .findByIdAndIsDeleted(data.getPizzaId(), false)
+                .findFirstByIdAndIsDeleted(data.getPizzaId(), false)
                 .orElseThrow(() -> new BadRequestException("Пицца не найдена"));
         order.setPizza(pizza);
         var address = addressRepository

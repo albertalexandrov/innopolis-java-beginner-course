@@ -29,14 +29,17 @@ public class PizzaController {
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<PizzaRetrieveDTO> createPizza(@Valid @RequestBody PizzaCreateUpdateDTO data) {
         var pizza = pizzaService.createPizza(data);
-        return ResponseEntity.status(HttpStatus.CREATED).body(pizzaMapper.map(pizza));
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(pizzaMapper.map(pizza));
     }
 
     @GetMapping(value = "/pizza/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     @Operation(summary = "Возвращает пиццу")
     public ResponseEntity<PizzaRetrieveDTO> getPizza(@PathVariable("id") Long pizzaId) {
         var pizza = pizzaService.getPizza(pizzaId);
-        return ResponseEntity.ok(pizzaMapper.map(pizza));
+        return ResponseEntity
+                .ok(pizzaMapper.map(pizza));
     }
 
     @GetMapping(value = "/pizzas", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -44,7 +47,8 @@ public class PizzaController {
     public ResponseEntity<List<PizzaRetrieveDTO>> listPizzas(
             @Parameter(description = "Название пиццы", example = "пеперони") @RequestParam(required = false) String name) {
         var pizzas = pizzaService.listPizzas(name);
-        return ResponseEntity.ok(pizzaMapper.map(pizzas));
+        return ResponseEntity
+                .ok(pizzaMapper.map(pizzas));
     }
 
     @PutMapping(value = "/pizza/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -53,7 +57,8 @@ public class PizzaController {
             @PathVariable("id") Long pizzaId, @Valid @RequestBody PizzaCreateUpdateDTO data
     ) {
         var pizza = pizzaService.updatePizza(pizzaId, data);
-        return ResponseEntity.ok(pizzaMapper.map(pizza));
+        return ResponseEntity
+                .ok(pizzaMapper.map(pizza));
     }
 
     @DeleteMapping("/pizza/{id}")

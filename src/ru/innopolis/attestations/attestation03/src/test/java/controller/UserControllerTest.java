@@ -92,7 +92,7 @@ public class UserControllerTest {
     void getUser() throws Exception {
         when(userRepository.findFirstByIdAndIsDeleted(user.getId(), false))
                 .thenReturn(Optional.of(user));
-        ResultActions response = mockMvc.perform(get("/user/{id}", user.getId().intValue())
+        ResultActions response = mockMvc.perform(get("/user/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
         );
@@ -139,7 +139,7 @@ public class UserControllerTest {
         when(userRepository.findFirstByIdAndIsDeleted(user.getId(), false))
                 .thenReturn(Optional.of(user));
         when(userRepository.save(user)).thenReturn(user);
-        ResultActions response = mockMvc.perform(put("/user/{id}", user.getId().intValue())
+        ResultActions response = mockMvc.perform(put("/user/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userUpdateDTO))
                 .accept(MediaType.APPLICATION_JSON)
@@ -156,7 +156,7 @@ public class UserControllerTest {
     void updateUser_UserNotFound() throws Exception {
         when(userRepository.findFirstByIdAndIsDeleted(user.getId(), false))
                 .thenReturn(Optional.empty());
-        ResultActions response = mockMvc.perform(put("/user/{id}", user.getId().intValue())
+        ResultActions response = mockMvc.perform(put("/user/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(userCreateDTO))
                 .accept(MediaType.APPLICATION_JSON)
@@ -169,7 +169,7 @@ public class UserControllerTest {
     void deleteUser() throws Exception {
         when(userRepository.findFirstByIdAndIsDeleted(user.getId(), false))
                 .thenReturn(Optional.of(user));
-        ResultActions response = mockMvc.perform(delete("/user/{id}", user.getId().intValue())
+        ResultActions response = mockMvc.perform(delete("/user/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         );
         response
@@ -180,7 +180,7 @@ public class UserControllerTest {
     void deleteUser_UserNotFound() throws Exception {
         when(userRepository.findFirstByIdAndIsDeleted(user.getId(), false))
                 .thenReturn(Optional.empty());
-        ResultActions response = mockMvc.perform(delete("/user/{id}", user.getId().intValue())
+        ResultActions response = mockMvc.perform(delete("/user/{id}", user.getId())
                 .contentType(MediaType.APPLICATION_JSON)
         );
         response

@@ -8,7 +8,7 @@ import java.util.Optional;
 
 public interface PizzaRepository extends JpaRepository<Pizza, Long> {
 
-    Optional<Pizza> findByIdAndIsDeleted(Long id, Boolean isDeleted);
+    Optional<Pizza> findFirstByIdAndIsDeleted(Long id, Boolean isDeleted);
     List<Pizza> findAllByIsDeletedAndNameContainsIgnoreCase(Boolean isDeleted, String name);
-
+    List<Pizza> findAllByIsDeleted(Boolean isDeleted);
 }
