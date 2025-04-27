@@ -7,7 +7,6 @@ import ru.innopolis.dto.OrderUpdateDTO;
 import ru.innopolis.entity.Order;
 import ru.innopolis.exceptions.BadRequestException;
 import ru.innopolis.exceptions.OrderNotFoundException;
-import ru.innopolis.mappers.OrderMapper;
 import ru.innopolis.repository.AddressRepository;
 import ru.innopolis.repository.OrderRepository;
 import ru.innopolis.repository.PizzaRepository;
@@ -18,12 +17,10 @@ import java.util.List;
 @Service
 @RequiredArgsConstructor
 public class OrderServiceImpl implements OrderService {
-
     private final OrderRepository orderRepository;
     private final PizzaRepository pizzaRepository;
     private final UserRepository userRepository;
     private final AddressRepository addressRepository;
-    private final OrderMapper orderMapper;
 
     @Override
     public Order createOrder(OrderCreateDTO data) {

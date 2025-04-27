@@ -5,7 +5,6 @@ import ru.innopolis.dto.AddressUpdateDTO;
 import ru.innopolis.entity.Address;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AddressService {
     Address createAddress(AddressCreateDTO data);
