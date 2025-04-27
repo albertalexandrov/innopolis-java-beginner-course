@@ -21,8 +21,7 @@ public class UserServiceImpl implements UserService {
     public User createUser(UserCreateUpdateDTO data) {
         var user = userMapper.map(data);
         user.setIsDeleted(false);
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
@@ -46,8 +45,7 @@ public class UserServiceImpl implements UserService {
         user.setLastName(data.getLastName());
         user.setFirstName(data.getFirstName());
         user.setPhoneNumber(data.getPhoneNumber());
-        userRepository.save(user);
-        return user;
+        return userRepository.save(user);
     }
 
     @Override

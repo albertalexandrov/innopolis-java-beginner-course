@@ -57,6 +57,7 @@ public class UserController {
             @Valid @RequestBody UserCreateUpdateDTO data
     ) {
         var user = userService.updateUser(userId, data);
+
         return ResponseEntity
                 .ok(userMapper.map(user));
     }
