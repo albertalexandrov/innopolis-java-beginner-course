@@ -15,7 +15,6 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <junit.version>5.8.1</junit.version>
         <org.mapstruct.version>1.6.3</org.mapstruct.version>
         <org.lombok.version>1.18.36</org.lombok.version>
     </properties>
@@ -87,7 +86,7 @@
                 <artifactId>flyway-maven-plugin</artifactId>
                 <version>11.1.0</version>
                 <configuration>
-                    <url>jdbc:postgresql://db:5432/attestation03</url>
+                    <url>jdbc:postgresql://localhost:5440/pizzeria</url>
                     <schemas>public</schemas>
                     <user>postgres</user>
                     <password>postgres</password>
