@@ -1,0 +1,14 @@
+services:
+  db:
+    image: postgres:latest
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=pizzeria
+    ports:
+      - "5441:5432"  # так нужно было
+    volumes:
+      - postgres-data-pizzeria:/var/lib/postgresql/data/
+
+volumes:
+  postgres-data-pizzeria:
